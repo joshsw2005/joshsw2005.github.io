@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Joshua Wijesinghe</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="Images/Favicon.png">
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <img src="Images/Logo.png" alt="Joshua Wijesinghe Logo">
+            </a>
+            <nav>
+                <input type="checkbox" id="nav-toggle" class="nav-toggle" style="display: none;">
+                <label for="nav-toggle" class="hamburger">
+                    <span></span><span></span><span></span>
+                </label>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="resume.html">Resume</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="projects-container">
+        <div class="projects-header">
+            <h1>Featured Projects</h1>
+            <p>A showcase of my work in Cybersecurity and Software Engineering</p>
+        </div>
+
+        <div class="projects-grid">
+            
+            <div class="project-card">
+                <div class="project-content">
+                    <h2>Adv Data Structures/Algo Dev - Group Sorting</h2>
+                    <p>The Group Sorting Project evaluates and compares the performance of several sorting algorithms, 
+                        including Bubble, Merge, Selection, Insertion, Exchange, Heap, and Quick sort. Each group member implemented 
+                        specific algorithms, which were later combined into a single project. The program reads datasets into memory, 
+                        runs each sorting algorithm on different types of datasets (sorted, reverse sorted, random, and duplicate-heavy), 
+                        and measures performance metrics such as comparisons, swaps, and execution time. Results are recorded and 
+                        later analyzed and visualized using Python and R to compare algorithm efficiency across different data sizes and 
+                        distributions.</p>
+                    
+                    <div class="project-image">
+                        <img src="Images/sorting_preview.png" alt="Visual analysis of sorting algorithm performance">
+                    </div>
+
+                    <div class="project-links">
+                        <a href="https://github.com/joshsw2005/csc2710-group-sorting" target="_blank" class="download-btn">GitHub Repo</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-content">
+                    <h2>Operating Systems - CPU Scheduling Simulator</h2>
+                    <p>This project involves building a CPU scheduling simulator that models how an operating system manages processes using 
+                        several classic scheduling algorithms: FCFS, SRTF, Priority, and Round Robin. Each process is represented by a Process 
+                        Control Block (PCB) containing information such as process ID, arrival time, burst time, remaining time, priority, and 
+                        state. The simulator runs in discrete time units, updating process states as they move from secondary memory (NEW) to 
+                        the ready queue (READY), to the CPU (RUNNING), and finally to termination (TERMINATED). At every time unit, the program 
+                        prints a full PCB trace showing the currently running process and all processes in the ready queue. The project also 
+                        includes a manual scheduling analysis, where Gantt charts and timing metrics (waiting, turnaround, and response times) 
+                        are calculated by hand.</p>
+
+                    <div class="project-image">
+                        <img src="Images/cpu_simulator_preview.png" alt="Screenshot of CPU Scheduling Simulator PCB trace">
+                    </div>
+
+                    <div class="project-links">
+                        <a href="https://github.com/joshsw2005/OperatingSystemProject" target="_blank" class="download-btn">GitHub Repo</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-content">
+                    <h2>Adv Data Structures/Algo Dev - Hashing Passwords Project</h2>
+                    <p>This project focuses on using ASCII values and hashing techniques to evaluate password security. The program prompts users 
+                        to create a password and checks whether it meets specific security requirements, such as containing uppercase letters, lowercase
+                        letters, numbers, and special characters, as well as meeting a minimum length. It also prevents users from including personal 
+                        information such as their first or last name in the password. The system converts the password into a hash value using a custom 
+                        hashing function based on ASCII character values, allowing passwords to be stored securely rather than in plain text. The 
+                        program also evaluates the strength of the password (Weak, Moderate, or Strong) based on its complexity. Additional security 
+                        features include rate limiting to slow repeated attempts and estimating resistance to brute-force attacks.</p>
+                    
+                    <div class="project-image">
+                        <img src="Images/hashing_security_preview.png" alt="Password hashing security evaluation logic">
+                    </div>
+
+                    
+
+                    <div class="code-window">
+                        <div class="code-header">password_hashing.cpp</div>
+                        <pre class="code-block"><code>
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;cctype&gt;
+#include &lt;vector&gt;
+#include &lt;unordered_set&gt;
+#include &lt;numeric&gt;
+#include &lt;chrono&gt;
+#include &lt;thread&gt;
+using namespace std;
+
+unsigned int enhancement(const string&amp; password) 
+{
+    vector&lt;unsigned int&gt; hashnum;
+    const unsigned int prime1 = 1;
+    const unsigned int prime2 = 0;
+    unsigned int hash = 0;
+
+    cout &lt;&lt; "Hashing Calculation for Password: " &lt;&lt; password &lt;&lt; "\n";
+
+    for (char ch : password) 
+    {
+        unsigned int hashValue = (prime1 * ch + prime2) % 5000;
+        hashnum.push_back(hashValue);
+    }
+
+    hash = accumulate(hashnum.begin(), hashnum.end(), 0u, [](unsigned int acc, unsigned int val) -&gt; unsigned int 
+    {
+        return (acc * prime1 + val) % 5000;
+    });
+
+    return hash;
+}
+
+bool validatity(const string&amp; password, const string&amp; firstName, const string&amp; lastName, string&amp; feedback) 
+{
+    feedback = ""; 
+    if (password.length() &lt; 7) return false;
+    if (password.find(firstName) != string::npos || password.find(lastName) != string::npos) return false;
+
+    bool hasUpper = false, hasLower = false, hasDigit = false, hasSpecial = false;
+    for (char ch : password) 
+    {
+        if (isupper(ch)) hasUpper = true;
+        else if (islower(ch)) hasLower = true;
+        else if (isdigit(ch)) hasDigit = true;
+        else if (ispunct(ch)) hasSpecial = true;
+    }
+    return hasUpper &amp;&amp; hasLower &amp;&amp; hasDigit &amp;&amp; hasSpecial;
+}
+
+int main() 
+{
+    unordered_set&lt;unsigned int&gt; hashedPasswords;
+    string firstName, lastName, password;
+
+    cout &lt;&lt; "\nEnter First name: ";
+    getline(cin, firstName);
+    cout &lt;&lt; "\nEnter Last name: ";
+    getline(cin, lastName);
+
+    while (true) 
+    {
+        cout &lt;&lt; "\nEnter password (or 'q' to quit): ";
+        getline(cin, password);
+        if (password == "q") break;
+
+        string feedback;
+        if (validatity(password, firstName, lastName, feedback)) 
+        {
+            unsigned int hashedPassword = enhancement(password);
+            hashedPasswords.insert(hashedPassword);
+            cout &lt;&lt; "Hashed password: " &lt;&lt; hashedPassword &lt;&lt; "\n";
+        } 
+    }
+    return 0;
+}
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2026 Joshua Wijesinghe</p>
+            <div class="social-links">
+                <a href="https://linkedin.com/in/joshua-wijesinghe/" target="_blank">LinkedIn</a>
+                <a href="https://github.com/joshsw2005" target="_blank">GitHub</a>
+                <a href="mailto:joshsw2005@gmail.com">Email Me</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
